@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="UTF-8" />
+  <title>📋 My Tasks</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <link rel="stylesheet" href="assets/css/styles.css" />
+</head>
+<body class="dashboard-page">
+
+  <!-- ✅ Navbar -->
+  <nav class="navbar navbar-dark border-bottom px-4 py-2 d-flex justify-content-between align-items-center">
+    <span class="navbar-brand mb-0 h1 text-dark">Taskati</span>
+    <span class="text-end">
+      <small class="text-muted" id="day-name">—</small><br />
+      <span class="text-primary" id="date">—</span>
+    </span>
+  </nav>
+
+  <div class="dashboard d-flex">
+    <!-- Sidebar -->
+    <aside class="sidebar text-white p-3">
+      <div class="text-center mb-4">
+        <a href="profile.html">
+          <img src="assets/images/User.jpg" alt="avatar" class="rounded-circle" width="80" style="cursor:pointer;">
+        </a>
+        <h4 id="user-name">—</h4>
+        <p id="user-email" class="text-secondary">—</p>
+      </div>
+      <nav>
+        <ul class="nav flex-column gap-2">
+          <li class="nav-item"><a class="nav-link rounded d-flex align-items-center gap-2" href="dashboard.html"><i class="fa-solid fa-table-cells-large"></i> Dashboard</a></li>
+          <li class="nav-item"><a class="nav-link rounded d-flex align-items-center gap-2 active" href="my_tasks.html"><i class="fa-regular fa-square-check"></i> My Tasks</a></li>
+         <li class="nav-item"><a class="nav-link d-flex align-items-center gap-2" href="employee.html"><i class="fa-solid fa-users"></i> Employee</a></li>
+          <li class="nav-item"><a class="nav-link rounded d-flex align-items-center gap-2" href="#" id="settings-link"><i class="fa-solid fa-gear"></i> Settings</a></li>
+          <li class="nav-item"><a class="nav-link rounded d-flex align-items-center gap-2" href="#" id="logout-link"><i class="fa-solid fa-arrow-right-from-bracket"></i> Logout</a></li>
+        </ul>
+      </nav>
+    </aside>
+
+    <!-- Content -->
+    <main class="main-content flex-grow-1 p-4">
+      <header class="d-flex justify-content-between align-items-center mb-4">
+        <h1 id="greeting" class="fw-bold">Welcome back, — 👋</h1>
+        <button id="btn-add" class="btn btn-danger"><i class="fa fa-plus"></i> Add Task</button>
+      </header>
+
+      <section class="row g-4">
+        <!-- 📝 Left Side: To-Do -->
+        <div class="col-lg-8">
+          <div class="bg-light rounded p-4 shadow-sm">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+              <div>
+                <span class="text-danger fw-bold">To-Do</span>
+                <small class="text-muted d-block">Today</small>
+              </div>
+            </div>
+            <div id="todo-list"></div>
+          </div>
+        </div>
+
+        <!-- ✅ Right Side: Completed -->
+        <div class="col-lg-4">
+          <div class="bg-white rounded p-4 shadow-sm">
+            <h6 class="fw-bold mb-4 text-orange d-flex align-items-center">
+              <i class="fa-regular fa-clipboard me-2 text-secondary" style="font-size: 20px;"></i>
+              Completed Task
+            </h6>
+            <div id="completed-tasks-list"></div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <!-- Modal Container -->
+  <div class="modal fade" id="taskModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-body p-0" id="taskModalContent"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script>
+    const user = JSON.parse(localStorage.getItem("user") || "{}");
+    if (!user.id) location.href = "login.html";
+    document.getElementById("user-name").textContent = user.name;
+    document.getElementById("user-email").textContent = user.email;
+    document.getElementById("greeting").textContent = `Welcome back, ${user.name} 👋`;
+
+    const today = new Date();
+    document.getElementById("day-name").textContent = today.toLocaleDateString("en-GB", { weekday: 'long' });
+    document.getElementById("date").textContent = today.toLocaleDateString("en-GB");
+
+    document.getElementById("btn-add").addEventListener("click", async () => {
+      const res = await fetch("tasks.html");
+      const html = await res.text();
+      document.getElementById("taskModalContent").innerHTML = html;
+
+      const script = document.createElement("script");
+      script.type = "module";
+      script.src = "assets/js/tasks.js";
+      document.body.appendChild(script);
+
+      const modal = new bootstrap.Modal(document.getElementById("taskModal"));
+      modal.show();
+    });
+  </script>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script type="module" src="assets/js/tasks.js"></script>
+</body>
+</html>

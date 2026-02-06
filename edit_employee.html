@@ -1,0 +1,35 @@
+<!-- edit_employee.html -->
+<div class="container my-4">
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h5 class="fw-bold">Edit Employee</h5>
+    <a href="#" class="text-decoration-none" data-bs-dismiss="modal">Close</a>
+  </div>
+
+  <form id="editEmployeeForm">
+    <input type="hidden" id="emp_id" name="id" />
+
+    <div class="mb-3">
+      <label class="form-label">First Name</label>
+      <input type="text" id="first_name" name="first_name" class="form-control" required>
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label">Last Name</label>
+      <input type="text" id="last_name" name="last_name" class="form-control" required>
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label">Email</label>
+      <input type="email" id="email" name="email" class="form-control" required>
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label">Roles</label>
+      <select id="role_ids" name="role_ids[]" class="form-select" multiple></select>
+      <div class="form-text">Hold Ctrl/Cmd to pick many.</div>
+    </div>
+
+    <button type="submit" class="btn btn-danger">Save Changes</button>
+  </form>
+</div>
+

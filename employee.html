@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="UTF-8" />
+  <title>👤 Employees</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <link rel="stylesheet" href="assets/css/styles.css" />
+</head>
+<body class="dashboard-page">
+
+  <!-- Navbar (same as My Tasks) -->
+  <nav class="navbar navbar-dark border-bottom px-4 py-2 d-flex justify-content-between align-items-center">
+    <span class="navbar-brand mb-0 h1 text-dark">Taskati</span>
+    <span class="text-end">
+      <small class="text-muted" id="day-name">—</small><br />
+      <span class="text-primary" id="date">—</span>
+    </span>
+  </nav>
+
+  <div class="dashboard d-flex">
+    <!-- Sidebar (same as My Tasks) -->
+    <aside class="sidebar text-white p-3">
+      <div class="text-center mb-4">
+        <a href="profile.html">
+          <img src="assets/images/User.jpg" alt="avatar" class="rounded-circle" width="80" style="cursor:pointer;">
+        </a>
+        <h4 id="user-name">—</h4>
+        <p id="user-email" class="text-secondary">—</p>
+      </div>
+      <nav>
+        <ul class="nav flex-column gap-2">
+          <li class="nav-item"><a class="nav-link rounded d-flex align-items-center gap-2" href="dashboard.html"><i class="fa-solid fa-table-cells-large"></i> Dashboard</a></li>
+          <li class="nav-item"><a class="nav-link rounded d-flex align-items-center gap-2" href="my_tasks.html"><i class="fa-regular fa-square-check"></i> My Tasks</a></li>
+          <li class="nav-item"><a class="nav-link rounded d-flex align-items-center gap-2 active" href="employee.html"><i class="fa-solid fa-id-card"></i> Employees</a></li>
+          <li class="nav-item"><a class="nav-link rounded d-flex align-items-center gap-2" href="#" id="settings-link"><i class="fa-solid fa-gear"></i> Settings</a></li>
+          <li class="nav-item"><a class="nav-link rounded d-flex align-items-center gap-2" href="#" id="logout-link"><i class="fa-solid fa-arrow-right-from-bracket"></i> Logout</a></li>
+        </ul>
+      </nav>
+    </aside>
+
+    <!-- Content -->
+    <main class="main-content flex-grow-1 p-4">
+      <header class="d-flex justify-content-between align-items-center mb-4">
+        <h1 id="greeting" class="fw-bold">Employees</h1>
+        <!-- Same ID name and button style as tasks page -->
+        <button id="btn-add" class="btn btn-danger"><i class="fa fa-plus"></i> Add Employee</button>
+      </header>
+
+      <section class="row g-4">
+        <!-- Left: list -->
+        <div class="col-lg-8">
+          <div class="bg-light rounded p-4 shadow-sm">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+              <div>
+                <span class="text-danger fw-bold">Employees</span>
+                <small class="text-muted d-block">Directory</small>
+              </div>
+            </div>
+            <div id="employees-list"></div>
+          </div>
+        </div>
+
+        <!-- Right: summary box (optional, like your completed panel) -->
+        <div class="col-lg-4">
+          <div class="bg-white rounded p-4 shadow-sm">
+            <h6 class="fw-bold mb-4 text-orange d-flex align-items-center">
+              <i class="fa-regular fa-clipboard me-2 text-secondary" style="font-size: 20px;"></i>
+              Summary
+            </h6>
+            <div id="employees-stats"></div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <!-- Modal Container (same pattern as tasks) -->
+  <div class="modal fade" id="employeeModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-body p-0" id="employeeModalContent"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script>
+    const user = JSON.parse(localStorage.getItem("user") || "{}");
+    if (!user.id) location.href = "login.html";
+    document.getElementById("user-name").textContent = user.name;
+    document.getElementById("user-email").textContent = user.email;
+    document.getElementById("greeting").textContent = `Employees`;
+
+    const today = new Date();
+    document.getElementById("day-name").textContent = today.toLocaleDateString("en-GB", { weekday: 'long' });
+    document.getElementById("date").textContent = today.toLocaleDateString("en-GB");
+
+    // EXACT same flow as tasks: fetch a partial into the modal, then show
+    document.getElementById("btn-add").addEventListener("click", async () => {
+      const res = await fetch("add_employee.html");
+      const html = await res.text();
+      document.getElementById("employeeModalContent").innerHTML = html;
+
+      // load the same module (it binds the add form)
+      const modal = new bootstrap.Modal(document.getElementById("employeeModal"));
+      modal.show();
+    });
+  </script>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script type="module" src="assets/js/employee.js"></script>
+</body>
+</html>

@@ -1,0 +1,59 @@
+<div class="modal-header bg-white border-bottom">
+  <h5 class="modal-title fw-bold">
+    Edit Task
+  </h5>
+  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+</div>
+
+<div class="modal-body p-4">
+  <form id="editTaskForm">
+    <input type="hidden" id="editTaskId" name="task_id">
+    
+    <div class="mb-3">
+      <label for="editTaskTitle" class="form-label fw-semibold">Title <span class="text-danger">*</span></label>
+      <input type="text" id="editTaskTitle" name="title" class="form-control" placeholder="Enter task title" required />
+    </div>
+
+    <div class="mb-3">
+      <label for="editTaskDueDate" class="form-label fw-semibold">Due Date</label>
+      <input type="date" id="editTaskDueDate" name="due_date" class="form-control" />
+    </div>
+
+    <div class="row">
+      <div class="col-md-6 mb-3">
+        <label for="editTaskPriority" class="form-label fw-semibold">Priority</label>
+        <select id="editTaskPriority" name="priority" class="form-select">
+          <option value="low">Low</option>
+          <option value="moderate">Moderate</option>
+          <option value="high">High</option>
+        </select>
+      </div>
+      <div class="col-md-6 mb-3">
+        <label for="editTaskStatus" class="form-label fw-semibold">Status</label>
+        <select id="editTaskStatus" name="status" class="form-select">
+          <option value="notstarted">Not Started</option>
+          <option value="inprogress">In Progress</option>
+          <option value="completed">Completed</option>
+        </select>
+      </div>
+    </div>
+<div class="mb-3">
+  <label class="form-label">Employees</label>
+  <select id="employee_ids" name="employee_ids[]" class="form-select" multiple></select>
+  <div class="form-text">Hold Ctrl/Cmd to select multiple.</div>
+</div>
+
+    <div class="mb-3">
+      <label for="editTaskDescription" class="form-label fw-semibold">Task Description</label>
+      <textarea id="editTaskDescription" name="description" class="form-control" rows="4" placeholder="Describe the task details..."></textarea>
+    </div>
+
+    <div class="d-flex gap-2 justify-content-front">
+     
+      <button type="submit" class="btn btn-danger">
+        <i class="fa fa-save me-2"></i>Done
+      </button>
+    </div>
+  </form>
+</div>
+<script type="module" src="assets/js/edit_task.js"></script>
